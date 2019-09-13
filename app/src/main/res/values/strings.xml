@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">sisman</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="start">Iniciar</string>
+    <string name="loginMessageNegative">Debe completar todos los datos</string>
+    <string name="url">url</string>
+</resources>

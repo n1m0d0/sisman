@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bodyPadding">20dp</dimen>
+    <dimen name="bodyMargin">20dp</dimen>
+    <dimen name="Title">30dp</dimen>
+    <dimen name="text">20dp</dimen>
+</resources>
