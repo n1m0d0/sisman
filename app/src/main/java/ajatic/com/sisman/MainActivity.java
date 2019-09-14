@@ -2,7 +2,9 @@ package ajatic.com.sisman;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,7 +62,24 @@ public class MainActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObjectPetition, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                Log.w("response", response.toString());
+                JSONObject jsonObjectAnswer = null;
+                try {
+                    jsonObjectAnswer = response.getJSONObject("answer");
+                    if (jsonObjectAnswer.getInt("code") == 200) {
+                        JSONObject jsonObjectUser = response.getJSONObject("user");
+                        String fullName = jsonObjectUser.getString("fullName");
+                        int idPerfil = jsonObjectUser.getInt("idPerfil");
+                        int idArea = jsonObjectUser.getInt("idArea");
+                        Intent ir = new Intent(MainActivity.this, tickets.class);
+                        ir.putExtra("fullName", fullName);
+                        ir.putExtra("idPerfil", idPerfil);
+                        ir.putExtra("idArea", idArea);
+                        startActivity(ir);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
