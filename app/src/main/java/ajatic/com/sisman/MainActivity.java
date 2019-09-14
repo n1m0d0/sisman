@@ -69,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
                     if (jsonObjectAnswer.getInt("code") == 200) {
                         JSONObject jsonObjectUser = response.getJSONObject("user");
                         String fullName = jsonObjectUser.getString("fullName");
-                        int idPerfil = jsonObjectUser.getInt("idPerfil");
+                        int idprofile = jsonObjectUser.getInt("idPerfil");
                         int idArea = jsonObjectUser.getInt("idArea");
                         Intent ir = new Intent(MainActivity.this, tickets.class);
                         ir.putExtra("fullName", fullName);
-                        ir.putExtra("idPerfil", idPerfil);
+                        ir.putExtra("idProfile", idprofile);
                         ir.putExtra("idArea", idArea);
                         startActivity(ir);
                     }

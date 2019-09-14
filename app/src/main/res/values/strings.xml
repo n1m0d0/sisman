@@ -5,5 +5,5 @@
     <string name="password">Password</string>
     <string name="start">Iniciar</string>
     <string name="loginMessageNegative">Debe completar todos los datos</string>
-    <string name="url">http://192.168.1.7/sisman</string>
+    <string name="url">http://192.168.1.11/sisman</string>
 </resources>
