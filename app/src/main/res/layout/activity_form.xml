@@ -5,23 +5,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/bodyPadding"
-    tools:context=".tickets">
-
-    <TextView
-        android:id="@+id/tvFullName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    tools:context=".form">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/llForms"
+            android:id="@+id/llForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
-    </ScrollView>
 
+    </ScrollView>
 
 </LinearLayout>

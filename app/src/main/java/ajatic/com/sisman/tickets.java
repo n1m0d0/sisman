@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,18 +21,29 @@ import org.json.JSONObject;
 
 public class tickets extends AppCompatActivity {
 
-    String areaId;
-    String profileId;
+    int areaId;
+    int profileId;
     String fullName;
+    TextView tvFullName;
+    LinearLayout llForms;
+    generator creator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tickets);
 
-        Bundle datos = getIntent().getExtras();
-        fullName = datos.getString("fullName");
-        profileId = datos.getString("idProfile");
-        areaId = datos.getString("idArea");
+        tvFullName = findViewById(R.id.tvFullName);
+        llForms = findViewById(R.id.llForms);
+
+        Bundle data = getIntent().getExtras();
+        fullName = data.getString("fullName");
+        profileId = data.getInt("idProfile");
+        areaId = data.getInt("idArea");
+
+        creator = new generator(this, llForms);
+
+        tvFullName.setText(fullName);
+        petitionForms();
     }
 
     private void petitionForms() {
@@ -44,21 +57,21 @@ public class tickets extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         RequestQueue requestQueue = Volley.newRequestQueue(tickets.this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObjectPetition, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.w("response", response.toString());
-                JSONObject jsonObjectAnswer = null;
                 try {
-                    jsonObjectAnswer = response.getJSONObject("answer");
+                    JSONObject jsonObjectAnswer = response.getJSONObject("answer");
                     if (jsonObjectAnswer.getInt("code") == 200) {
                         JSONArray forms = response.getJSONArray("forms");
                         for (int i = 0; i < forms.length(); i++) {
                             JSONObject form = forms.getJSONObject(i);
                             int id = form.getInt("id");
                             String name = form.getString("nombre");
+
+                            creator.createListForms(name, id);
                         }
 
                     }
