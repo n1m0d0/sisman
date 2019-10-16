@@ -3,65 +3,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBody"
     android:orientation="vertical"
     android:padding="@dimen/bodyPadding"
     tools:context=".MainActivity">
 
     <TextView
         style="@style/title"
-        android:text="@string/login"
-        android:layout_margin="@dimen/bodyMargin"/>
+        android:layout_margin="@dimen/bodyMargin"
+        android:text="@string/login" />
 
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_account_circle_black_24dp"/>
+        android:src="@drawable/ic_account_circle_black_24dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="@dimen/bodyMargin"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
             style="@style/text"
-            android:text="@string/email"
-            android:layout_weight="7" />
+            android:layout_weight="7"
+            android:text="@string/email" />
 
         <EditText
-            style="@style/editText"
             android:id="@+id/etEmail"
-            android:hint="@string/email"
-            android:layout_weight="3" />
+            style="@style/editText"
+            android:layout_weight="3"
+            android:hint="@string/email" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="@dimen/bodyMargin"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
             style="@style/text"
-            android:text="@string/password"
-            android:layout_weight="7" />
+            android:layout_weight="7"
+            android:text="@string/password" />
 
         <EditText
-            style="@style/editText"
             android:id="@+id/etPassword"
-            android:hint="@string/password"
-            android:layout_weight="3" />
+            style="@style/editText"
+            android:layout_weight="3"
+            android:inputType="textPassword"
+            android:hint="@string/password" />
 
     </LinearLayout>
-    
+
     <Button
-        style="@style/button"
-        android:text="@string/start"
         android:id="@+id/btnStart"
-        android:layout_marginTop="@dimen/bodyMargin"/>
+        style="@style/button"
+        android:layout_marginTop="@dimen/bodyMargin"
+        android:text="@string/start" />
 
 </LinearLayout>

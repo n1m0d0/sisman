@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 public class tickets extends AppCompatActivity {
 
+    int userId;
     int areaId;
     int profileId;
     String fullName;
@@ -39,6 +40,7 @@ public class tickets extends AppCompatActivity {
         fullName = data.getString("fullName");
         profileId = data.getInt("idProfile");
         areaId = data.getInt("idArea");
+        userId = data.getInt("idUser");
 
         creator = new generator(this, llForms);
 
@@ -51,8 +53,9 @@ public class tickets extends AppCompatActivity {
         JSONObject jsonObjectPetition = new JSONObject();
         JSONObject jsonObjectArea = new JSONObject();
         try {
-            jsonObjectArea.put("id", areaId);
-            jsonObjectPetition.put("area", jsonObjectArea);
+            jsonObjectArea.put("idArea", areaId);
+            jsonObjectArea.put("idUsuario", userId);
+            jsonObjectPetition.put("tickets", jsonObjectArea);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -71,10 +71,12 @@ public class MainActivity extends AppCompatActivity {
                         String fullName = jsonObjectUser.getString("fullName");
                         int idprofile = jsonObjectUser.getInt("idPerfil");
                         int idArea = jsonObjectUser.getInt("idArea");
+                        int idUser = jsonObjectUser.getInt("idUser");
                         Intent ir = new Intent(MainActivity.this, tickets.class);
                         ir.putExtra("fullName", fullName);
                         ir.putExtra("idProfile", idprofile);
                         ir.putExtra("idArea", idArea);
+                        ir.putExtra("idUser", idUser);
                         startActivity(ir);
                     }
                 } catch (JSONException e) {

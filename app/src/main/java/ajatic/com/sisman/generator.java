@@ -29,6 +29,17 @@ public class generator {
         this.llContainer = llContainer;
     }
 
+    public void createListTickets(String name, final int formId) {
+        LinearLayout llBody = new LinearLayout(context);
+        LinearLayout.LayoutParams paramsLlBody = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        llBody.setLayoutParams(paramsLlBody);
+        llBody.setOrientation(LinearLayout.HORIZONTAL);
+        llBody.setGravity(Gravity.CENTER);
+        llContainer.addView(llBody);
+
+
+    }
+
     public void createListForms(String name, final int formId) {
         LinearLayout llBody = new LinearLayout(context);
         LinearLayout.LayoutParams paramsLlBody = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -126,6 +137,8 @@ public class generator {
         LinearLayout.LayoutParams paramsBtnSave = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         btnSave.setLayoutParams(paramsBtnSave);
         btnSave.setText("Guardar");
+        btnSave.setTextColor(Color.parseColor("#FFFFFF"));
+        btnSave.setBackgroundResource(R.drawable.custonbutton);
         llContainer.addView(btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
