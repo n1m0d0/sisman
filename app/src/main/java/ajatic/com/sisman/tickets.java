@@ -49,13 +49,14 @@ public class tickets extends AppCompatActivity {
     }
 
     private void petitionForms() {
-        String url = getText(R.string.url) + "/forms.php";
+        String url = getText(R.string.url) + "/tickets.php";
         JSONObject jsonObjectPetition = new JSONObject();
         JSONObject jsonObjectArea = new JSONObject();
         try {
             jsonObjectArea.put("idArea", areaId);
             jsonObjectArea.put("idUsuario", userId);
             jsonObjectPetition.put("tickets", jsonObjectArea);
+            Log.w("JSONPeticion", jsonObjectPetition.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -68,13 +69,17 @@ public class tickets extends AppCompatActivity {
                 try {
                     JSONObject jsonObjectAnswer = response.getJSONObject("answer");
                     if (jsonObjectAnswer.getInt("code") == 200) {
-                        JSONArray forms = response.getJSONArray("forms");
-                        for (int i = 0; i < forms.length(); i++) {
-                            JSONObject form = forms.getJSONObject(i);
-                            int id = form.getInt("id");
-                            String name = form.getString("nombre");
-
-                            creator.createListForms(name, id);
+                        JSONArray tickets = response.getJSONArray("tickets");
+                        for (int i = 0; i < tickets.length(); i++) {
+                            JSONObject ticket = tickets.getJSONObject(i);
+                            int id = ticket.getInt("id");
+                            String descripcion = ticket.getString("descripcion");
+                            String servicio = ticket.getString("servicio");
+                            String cliente = ticket.getString("cliente");
+                            String celular = ticket.getString("celular");
+                            int formularioId = ticket.getInt("formularioId");
+                            //creator.createListForms(name, id);
+                            creator.createListTickets(id, descripcion, servicio, cliente, celular, formularioId, fullName, userId);
                         }
 
                     }
@@ -85,7 +90,7 @@ public class tickets extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.w("response", error.toString());
             }
         });
         requestQueue.add(jsonObjectRequest);

@@ -22,21 +22,107 @@ import org.json.JSONObject;
 
 public class generator {
 
-    Context context;
-    LinearLayout llContainer;
+    private Context context;
+    private LinearLayout llContainer;
     public generator (Context context, LinearLayout llContainer) {
         this.context = context;
         this.llContainer = llContainer;
     }
 
-    public void createListTickets(String name, final int formId) {
+    public void createListTickets(final int id, String descripcion, String servicio, String cliente, String celular, final int formularioId, String fullName, final int userId) {
         LinearLayout llBody = new LinearLayout(context);
         LinearLayout.LayoutParams paramsLlBody = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsLlBody.setMargins(0, 10, 0, 10);
         llBody.setLayoutParams(paramsLlBody);
         llBody.setOrientation(LinearLayout.HORIZONTAL);
         llBody.setGravity(Gravity.CENTER);
         llContainer.addView(llBody);
 
+        LinearLayout llTicket = new LinearLayout(context);
+        LinearLayout.LayoutParams paramsLlTicket = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,8);
+        llTicket.setLayoutParams(paramsLlTicket);
+        llTicket.setOrientation(LinearLayout.VERTICAL);
+        llTicket.setBackgroundResource(R.drawable.ticketd);
+        llTicket.setGravity(Gravity.CENTER);
+        llBody.addView(llTicket);
+
+        TextView tvTicket = new TextView(context);
+        LinearLayout.LayoutParams paramsTvTicket = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tvTicket.setLayoutParams(paramsTvTicket);
+        tvTicket.setText("Ticket #");
+        tvTicket.setTextSize(15);
+        tvTicket.setTextColor(Color.parseColor("#01090B"));
+        llTicket.addView(tvTicket);
+
+        TextView tvNumber = new TextView(context);
+        LinearLayout.LayoutParams paramsTvNumber = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tvNumber.setLayoutParams(paramsTvNumber);
+        tvNumber.setText("" + id);
+        tvNumber.setTextSize(50);
+        tvNumber.setTextColor(Color.parseColor("#01090B"));
+        llTicket.addView(tvNumber);
+
+        LinearLayout llDescription = new LinearLayout(context);
+        LinearLayout.LayoutParams paramsLlDescription = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,2);
+        paramsLlDescription.setMargins(10, 0, 0, 10);
+        llDescription.setLayoutParams(paramsLlDescription);
+        llDescription.setOrientation(LinearLayout.VERTICAL);
+        llDescription.setBackgroundResource(R.drawable.ticketi);
+        llDescription.setPadding(20, 20, 20, 20);
+        llBody.addView(llDescription);
+
+        TextView tvService = new TextView(context);
+        LinearLayout.LayoutParams paramsTvService = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tvService.setLayoutParams(paramsTvService);
+        tvService.setText(servicio);
+        tvService.setTextSize(13);
+        tvService.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
+        tvService.setTextColor(Color.parseColor("#01090B"));
+        llDescription.addView(tvService);
+
+        TextView tvClient = new TextView(context);
+        LinearLayout.LayoutParams paramsTvClient = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tvClient.setLayoutParams(paramsTvClient);
+        tvClient.setText(cliente);
+        tvClient.setTextSize(13);
+        tvClient.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
+        tvClient.setTextColor(Color.parseColor("#01090B"));
+        llDescription.addView(tvClient);
+
+        LinearLayout llOptions = new LinearLayout(context);
+        LinearLayout.LayoutParams paramsLlOptions = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        llOptions.setLayoutParams(paramsLlOptions);
+        llOptions.setOrientation(LinearLayout.HORIZONTAL);
+        llDescription.addView(llOptions);
+
+        Button btnDetails = new Button(context);
+        LinearLayout.LayoutParams paramsbtnDetails = new LinearLayout.LayoutParams(120, 120);
+        btnDetails.setLayoutParams(paramsbtnDetails);
+        btnDetails.setBackgroundResource(R.drawable.ic_assignment_black_24dp);
+        llOptions.addView(btnDetails);
+
+        Button btnCall = new Button(context);
+        LinearLayout.LayoutParams paramsBtnCall = new LinearLayout.LayoutParams(120, 120);
+        btnCall.setLayoutParams(paramsBtnCall);
+        btnCall.setBackgroundResource(R.drawable.ic_call_black_24dp);
+        llOptions.addView(btnCall);
+
+        Button btnArrow = new Button(context);
+        LinearLayout.LayoutParams paramsbtnArrow = new LinearLayout.LayoutParams(120, 120);
+        btnArrow.setLayoutParams(paramsbtnArrow);
+        btnArrow.setBackgroundResource(R.drawable.ic_arrow_forward_black_24dp);
+        llOptions.addView(btnArrow);
+
+        btnArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ir = new Intent(context, form.class);
+                ir.putExtra("formId", formularioId);
+                ir.putExtra("ticketId", id);
+                ir.putExtra("userId", userId);
+                context.startActivity(ir);
+            }
+        });
 
     }
 
@@ -44,7 +130,7 @@ public class generator {
         LinearLayout llBody = new LinearLayout(context);
         LinearLayout.LayoutParams paramsLlBody = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         llBody.setLayoutParams(paramsLlBody);
-        llBody.setOrientation(LinearLayout.HORIZONTAL);
+        llBody.setOrientation(LinearLayout.VERTICAL);
         llBody.setGravity(Gravity.CENTER);
         llContainer.addView(llBody);
 

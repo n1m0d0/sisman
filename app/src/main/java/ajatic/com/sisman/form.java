@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +30,7 @@ public class form extends AppCompatActivity {
         creator = new generator(this, llFrom);
         Bundle data = getIntent().getExtras();
         formId = data.getInt("formId");
+        Log.w("formId", "" + formId);
         petitionForm();
     }
 
