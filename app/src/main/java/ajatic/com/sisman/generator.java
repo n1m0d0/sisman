@@ -1,9 +1,12 @@
 package ajatic.com.sisman;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -29,7 +33,7 @@ public class generator {
         this.llContainer = llContainer;
     }
 
-    public void createListTickets(final int id, String descripcion, String servicio, String cliente, String celular, final int formularioId, String fullName, final int userId) {
+    public void createListTickets(final int id, final String descripcion, String servicio, String cliente, final String celular, final int formularioId, String fullName, final int userId) {
         LinearLayout llBody = new LinearLayout(context);
         LinearLayout.LayoutParams paramsLlBody = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsLlBody.setMargins(0, 10, 0, 10);
@@ -112,6 +116,66 @@ public class generator {
         btnArrow.setLayoutParams(paramsbtnArrow);
         btnArrow.setBackgroundResource(R.drawable.ic_arrow_forward_black_24dp);
         llOptions.addView(btnArrow);
+
+        btnDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(context);
+
+                LinearLayout llContainer = new LinearLayout(context);
+                LinearLayout.LayoutParams paramsLlContainer = new LinearLayout.LayoutParams(300, ViewGroup.LayoutParams.MATCH_PARENT);
+                llContainer.setLayoutParams(paramsLlContainer);
+                llContainer.setPadding(10, 10, 10, 10);
+                llContainer.setOrientation(LinearLayout.VERTICAL);
+
+                TextView tvTitle = new TextView(context);
+                LinearLayout.LayoutParams paramsTvTitle = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                tvTitle.setLayoutParams(paramsTvTitle);
+                tvTitle.setText("DETALLE");
+                tvTitle.setTextSize(40);
+                llContainer.addView(tvTitle);
+
+                ScrollView svDetail = new ScrollView(context);
+                LinearLayout.LayoutParams paramsSvDetail = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                svDetail.setLayoutParams(paramsSvDetail);
+                llContainer.addView(svDetail);
+
+                LinearLayout llDetail = new LinearLayout(context);
+                LinearLayout.LayoutParams paramsLlDetail = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                llDetail.setLayoutParams(paramsLlDetail);
+                llDetail.setOrientation(LinearLayout.VERTICAL);
+                svDetail.addView(llDetail);
+
+                TextView tvDetail = new TextView(context);
+                LinearLayout.LayoutParams paramsTvDetail = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                tvDetail.setLayoutParams(paramsTvDetail);
+                tvDetail.setText(descripcion);
+                tvDetail.setTextSize(20);
+                llDetail.addView(tvDetail);
+
+                Button btnDialog = new Button(context);
+                LinearLayout.LayoutParams paramsBtnDialog = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                btnDialog.setLayoutParams(paramsBtnDialog);
+                btnDialog.setText("Aceptar");
+                llContainer.addView(btnDialog);
+
+                btnDialog.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                    }
+                });
+                dialog.setContentView(llContainer);
+                dialog.show();
+            }
+        });
+
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String dial = "tel:" + celular;
+                context.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(dial)));
+            }
+        });
 
         btnArrow.setOnClickListener(new View.OnClickListener() {
             @Override
