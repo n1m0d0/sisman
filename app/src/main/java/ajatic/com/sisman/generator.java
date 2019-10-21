@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +21,27 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class generator {
 
     private Context context;
     private LinearLayout llContainer;
+    private ArrayList<EditText> editTexts = new ArrayList<>();
+    private ArrayList<CheckBox> checkBoxes = new ArrayList<>();
+    private ArrayList<RadioButton> radioButtons = new ArrayList<>();
     public generator (Context context, LinearLayout llContainer) {
         this.context = context;
         this.llContainer = llContainer;
@@ -68,7 +82,6 @@ public class generator {
 
         LinearLayout llDescription = new LinearLayout(context);
         LinearLayout.LayoutParams paramsLlDescription = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,2);
-        paramsLlDescription.setMargins(10, 0, 0, 10);
         llDescription.setLayoutParams(paramsLlDescription);
         llDescription.setOrientation(LinearLayout.VERTICAL);
         llDescription.setBackgroundResource(R.drawable.ticketi);
@@ -254,6 +267,7 @@ public class generator {
             editText.setId(option.getInt("id"));
             editText.setHint(option.getString("descripcion"));
             llContainer.addView(editText);
+            editTexts.add(editText);
         }
     }
 
@@ -268,6 +282,7 @@ public class generator {
             radioButton.setId(option.getInt("id"));
             radioButton.setText(option.getString("descripcion"));
             radioGroup.addView(radioButton);
+            radioButtons.add(radioButton);
         }
     }
 
@@ -279,10 +294,11 @@ public class generator {
             checkBox.setId(option.getInt("id"));
             checkBox.setText(option.getString("descripcion"));
             llContainer.addView(checkBox);
+            checkBoxes.add(checkBox);
         }
     }
 
-    public void createButtonSave(){
+    public void createButtonSave(final int ticketId, final int userId){
         Button btnSave = new Button(context);
         LinearLayout.LayoutParams paramsBtnSave = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         btnSave.setLayoutParams(paramsBtnSave);
@@ -293,8 +309,93 @@ public class generator {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                JSONObject jsonObjectPetition = new JSONObject();
+                JSONObject jsonObjectTicket = new JSONObject();
+                JSONArray jsonArrayAnswers = new JSONArray();
+                try {
+                    jsonObjectTicket.put("userId", userId);
+                    jsonObjectTicket.put("ticketId", ticketId);
+                    jsonObjectPetition.put("data", jsonObjectTicket);
+                    for (Iterator iterator = editTexts.iterator(); iterator
+                            .hasNext();) {
+                        EditText editText = (EditText) iterator.next();
+                        int optionId = editText.getId();
+                        String detail = editText.getText().toString().trim();
+                        if (!detail.equals("")) {
+                            JSONObject answer = new JSONObject();
+                            answer.put("optionId", optionId);
+                            answer.put("detail", detail);
+                            jsonArrayAnswers.put(answer);
+                        } else {
+                            JSONObject answer = new JSONObject();
+                            answer.put("optionId", optionId);
+                            answer.put("detail", "false");
+                            jsonArrayAnswers.put(answer);
+                        }
+                    }
+
+                    for (Iterator iterator = radioButtons.iterator(); iterator
+                            .hasNext();) {
+                        RadioButton radioButton = (RadioButton) iterator.next();
+                        int optionId = radioButton.getId();
+                        Boolean detail = radioButton.isChecked();
+                        if (detail == true) {
+                            JSONObject answer = new JSONObject();
+                            answer.put("optionId", optionId);
+                            answer.put("detail", "true");
+                            jsonArrayAnswers.put(answer);
+                        } else {
+                            JSONObject answer = new JSONObject();
+                            answer.put("optionId", optionId);
+                            answer.put("detail", "false");
+                            jsonArrayAnswers.put(answer);
+                        }
+                    }
+
+                    for (Iterator iterator = checkBoxes.iterator(); iterator
+                            .hasNext();) {
+                        CheckBox checkBox = (CheckBox) iterator.next();
+                        int optionId = checkBox.getId();
+                        Boolean detail = checkBox.isChecked();
+                        if (detail == true) {
+                            JSONObject answer = new JSONObject();
+                            answer.put("optionId", optionId);
+                            answer.put("detail", "true");
+                            jsonArrayAnswers.put(answer);
+                        } else {
+                            JSONObject answer = new JSONObject();
+                            answer.put("optionId", optionId);
+                            answer.put("detail", "false");
+                            jsonArrayAnswers.put(answer);
+                        }
+                    }
+
+                    jsonObjectPetition.put("answers", jsonArrayAnswers);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Log.w("send", jsonObjectPetition.toString());
+                petitionLogin(jsonObjectPetition);
+            }
+        });
+    }
+
+    private void petitionLogin(JSONObject jsonObjectPetition) {
+
+        String url = " ";
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObjectPetition, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
             }
         });
+        requestQueue.add(jsonObjectRequest);
     }
 }

@@ -20,6 +20,8 @@ import org.json.JSONObject;
 
 public class form extends AppCompatActivity {
     int formId;
+    int ticketId;
+    int userId;
     LinearLayout llFrom;
     generator creator;
     @Override
@@ -30,6 +32,8 @@ public class form extends AppCompatActivity {
         creator = new generator(this, llFrom);
         Bundle data = getIntent().getExtras();
         formId = data.getInt("formId");
+        ticketId = data.getInt("ticketId");
+        userId = data.getInt("userId");
         Log.w("formId", "" + formId);
         petitionForm();
     }
@@ -92,7 +96,7 @@ public class form extends AppCompatActivity {
                         }
 
                     }
-                    creator.createButtonSave();
+                    creator.createButtonSave(ticketId,userId);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
